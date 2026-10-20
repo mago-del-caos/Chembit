@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chembit - Tu Mascota Virtual</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#212529">
+    
+    <!-- Fuentes y NES.css para estilo retro -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main class="device-shell nes-container is-rounded is-dark">
+        <!-- Título de la carcasa -->
+        <h1 class="device-title">CHEMBIT</h1>
+
+        <!-- Pantalla LCD -->
+        <section class="lcd-screen nes-container is-rounded" id="lcd-screen">
+            
+            <!-- Barra de Estadísticas -->
+            <div class="stats-bar">
+                <div class="stat">
+                    <i class="nes-icon is-small heart"></i>
+                    <progress class="nes-progress is-error" id="bar-hambre" value="100" max="100"></progress>
+                </div>
+                <div class="stat">
+                    <i class="nes-icon is-small star"></i>
+                    <progress class="nes-progress is-warning" id="bar-felicidad" value="100" max="100"></progress>
+                </div>
+                <div class="stat">
+                    <i class="nes-icon is-small like"></i>
+                    <progress class="nes-progress is-primary" id="bar-higiene" value="100" max="100"></progress>
+                </div>
+                <div class="stat">
+                    <i class="nes-icon is-small trophy"></i>
+                    <progress class="nes-progress is-success" id="bar-estudio" value="0" max="100"></progress>
+                </div>
+            </div>
+
+            <!-- Área de Notificaciones -->
+            <div id="notification-area" class="notification-area"></div>
+
+            <!-- Área del Sprite Principal -->
+            <div class="sprite-area" id="sprite-area">
+                <!-- El sprite cambiará mediante clases CSS en JS -->
+                <div id="chembit-sprite" class="sprite phase-egg"></div>
+                <div id="dirt-layer" class="dirt-layer hidden">💩</div>
+                <div id="sick-layer" class="sick-layer hidden">⚕️</div>
+            </div>
+            
+            <!-- Info extra: Edad, Peso -->
+            <div class="info-bar">
+                <span id="info-edad">Edad: 0d</span>
+                <span id="info-peso">Peso: 5g</span>
+            </div>
+        </section>
+
+        <!-- Botones de Acción (Físicos del dispositivo) -->
+        <section class="action-buttons">
+            <button type="button" class="nes-btn is-primary" id="btn-alimentar">Alimentar</button>
+            <button type="button" class="nes-btn is-success" id="btn-jugar">Jugar</button>
+            <button type="button" class="nes-btn is-warning" id="btn-limpiar">Bañar</button>
+            <button type="button" class="nes-btn is-normal" id="btn-estudiar">Estudiar</button>
+            <button type="button" class="nes-btn is-error" id="btn-curar">Curar</button>
+        </section>
+
+        <!-- Menú Modal de Juegos (Oculto por defecto) -->
+        <dialog class="nes-dialog is-dark is-rounded" id="modal-juegos">
+            <form method="dialog">
+                <p class="title">Selecciona un juego</p>
+                <div class="game-options">
+                    <!-- Estos botones alimentarán la estadística oculta en engine.js -->
+                    <button class="nes-btn is-primary" id="btn-game-ladrillos">Apilar Ladrillos</button>
+                    <button class="nes-btn is-error" id="btn-game-operando">Operando</button>
+                    <button class="nes-btn is-warning" id="btn-game-ruleta">Ruleta</button>
+                    <button class="nes-btn is-success" id="btn-game-dibujar">Dibujar</button>
+                </div>
+                <menu class="dialog-menu">
+                    <button class="nes-btn">Cancelar</button>
+                </menu>
+            </form>
+        </dialog>
+
+        <!-- Contenedores para la ejecución de los minijuegos -->
+        <div id="minigame-container" class="hidden">
+            <canvas id="minigame-canvas" width="300" height="300"></canvas>
+            <button type="button" class="nes-btn is-error" id="btn-exit-game">Salir del Juego</button>
+        </div>
+    </main>
+
+    <!-- Librerías Externas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
+
+    <!-- Lógica Interna Modular -->
+    <script src="js/engine.js"></script>
+    <script src="js/minigames.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
