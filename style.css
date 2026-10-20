@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Variables Globales y Reset
+   ========================================================================== */
+:root {
+    --bg-color: #2c3e50;
+    --device-color: #e74c3c; /* Color de la carcasa */
+    --lcd-bg: #8bac0f; /* Color verde/amarillo clásico de GameBoy/Tamagotchi */
+    --lcd-border: #0f380f;
+    --text-color: #0f380f;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: 'Press Start 2P', cursive; /* Fuente NES */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   Carcasa del Dispositivo (Chembit Shell)
+   ========================================================================== */
+.device-shell {
+    background-color: var(--device-color);
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-shadow: inset -5px -5px 15px rgba(0,0,0,0.3), 10px 10px 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.device-title {
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 0 #000;
+    font-size: 1.5rem;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+/* ==========================================================================
+   Pantalla LCD
+   ========================================================================== */
+.lcd-screen {
+    background-color: var(--lcd-bg) !important; /* Sobrescribe NES.css container */
+    border: 4px solid var(--lcd-border) !important;
+    position: relative;
+    padding: 10px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: inset 5px 5px 10px rgba(0,0,0,0.2) !important;
+}
+
+/* Barras de Estadísticas */
+.stats-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat .nes-progress {
+    height: 15px;
+}
+
+/* Barra Inferior (Edad y Peso) */
+.info-bar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.6rem;
+    color: var(--text-color);
+    margin-top: auto;
+    border-top: 2px dashed var(--lcd-border);
+    padding-top: 5px;
+}
+
+/* Área de Notificaciones (Alertas retro) */
+.notification-area {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    color: var(--text-color);
+    text-align: center;
+    width: 90%;
+    z-index: 10;
+    min-height: 1em;
+}
+
+/* ==========================================================================
+   Área del Sprite y Animaciones
+   ========================================================================== */
+.sprite-area {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Animación Idle (Salto leve/Respiración) */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.sprite {
+    width: 64px;
+    height: 64px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: bounce 1s infinite steps(2); /* Steps para simular frames de 8-bits */
+    image-rendering: pixelated; /* Mantiene bordes duros al escalar */
+}
+
+/* Capas de suciedad y enfermedad */
+.dirt-layer, .sick-layer {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: bounce 2s infinite steps(2) reverse;
+}
+
+.dirt-layer {
+    bottom: 20px;
+    right: 40px;
+}
+
+.sick-layer {
+    top: 20px;
+    right: 50px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   Botones de Acción
+   ========================================================================== */
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.action-buttons .nes-btn {
+    font-size: 0.6rem;
+    padding: 5px;
+    width: 100%;
+}
+
+/* El botón de jugar y curar ocupan las esquinas inferiores para simular un control D-Pad/A-B */
+#btn-estudiar { grid-column: span 2; }
+#btn-curar { grid-column: span 1; }
+
+/* ==========================================================================
+   Modales y Minijuegos
+   ========================================================================== */
+#modal-juegos {
+    width: 90%;
+    max-width: 350px;
+}
+
+.game-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.game-options .nes-btn {
+    font-size: 0.7rem;
+}
+
+#minigame-container {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--lcd-bg);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+#minigame-canvas {
+    border: 4px solid var(--lcd-border);
+    background-color: #fff;
+    image-rendering: pixelated;
+    margin-bottom: 10px;
+}
